@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from dds.models import Type, Category, Subcategory, Transaction
+from dds.models import Type, Category, Subcategory, Transaction, Status
 
 
 class TypeSerializer(serializers.ModelSerializer):
@@ -7,6 +7,14 @@ class TypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Type
+        fields = ['id', 'name']  # Поля, которые будут сериализоваться
+
+
+class StatusSerializer(serializers.ModelSerializer):
+    """Сериализатор для модели Type."""
+
+    class Meta:
+        model = Status
         fields = ['id', 'name']  # Поля, которые будут сериализоваться
 
 

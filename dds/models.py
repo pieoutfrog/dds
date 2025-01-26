@@ -4,6 +4,7 @@ from django.db.models import CASCADE
 # Опции для указания, что поле может быть пустым или не заданным
 NULLABLE = {'blank': True, 'null': True}
 
+
 class Type(models.Model):
     """
     Модель, представляющая типы транзакций.
@@ -80,6 +81,30 @@ class Subcategory(models.Model):
         verbose_name_plural = 'Подкатегории'
 
 
+class Status(models.Model):
+    """
+    Модель, представляющая статус транзакций.
+
+    Attributes:
+        name (str): Название статуса транзакции.
+    """
+    name = models.CharField(max_length=50, verbose_name='Статус')
+    objects = models.Manager()
+
+    def __str__(self):
+        """
+        Возвращает строковое представление статуса.
+
+        Returns:
+            str: Название типа.
+        """
+        return f'{self.name}'
+
+    class Meta:
+        verbose_name = 'Статус'
+        verbose_name_plural = 'Статусы'
+
+
 class Transaction(models.Model):
     """
     Модель, представляющая транзакции.
@@ -94,14 +119,8 @@ class Transaction(models.Model):
         amount (DecimalField): Сумма транзакции.
         comment (TextField): Дополнительный комментарий к транзакции.
     """
-    STATUS_CHOICES = [
-        ('business', 'Бизнес'),
-        ('personal', 'Личное'),
-        ('tax', 'Налог'),
-    ]
-
     date_created = models.DateField(auto_now_add=True, verbose_name='Дата создания записи')
-    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='personal', verbose_name='Статус')
+    status = models.ForeignKey(Status, on_delete=CASCADE, verbose_name='Тип')
     category = models.ForeignKey(Category, on_delete=CASCADE, verbose_name='Категория')
     subcategory = models.ForeignKey(Subcategory, on_delete=CASCADE, verbose_name='Подкатегория')
     type = models.ForeignKey(Type, on_delete=CASCADE, verbose_name='Тип')

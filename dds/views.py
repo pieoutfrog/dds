@@ -1,14 +1,15 @@
 from django.utils.dateparse import parse_date
 from rest_framework import viewsets, permissions
 
-from dds.models import Category, Subcategory, Type, Transaction
-from dds.serializers import TransactionSerializer, CategorySerializer, SubcategorySerializer, TypeSerializer
+from dds.models import Category, Subcategory, Type, Transaction, Status
+from dds.serializers import TransactionSerializer, CategorySerializer, SubcategorySerializer, TypeSerializer, \
+    StatusSerializer
+
 
 class TransactionViewSet(viewsets.ModelViewSet):
     """Представление для управления транзакциями."""
 
     serializer_class = TransactionSerializer
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Transaction.objects.all()
 
     def get_queryset(self):
@@ -54,23 +55,30 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
         return queryset
 
+
 class CategoryViewSet(viewsets.ModelViewSet):
     """Представление для управления категориями."""
 
     serializer_class = CategorySerializer
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Category.objects.all()
+
 
 class SubcategoryViewSet(viewsets.ModelViewSet):
     """Представление для управления подкатегориями."""
 
     serializer_class = SubcategorySerializer
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Subcategory.objects.all()
+
 
 class TypeViewSet(viewsets.ModelViewSet):
     """Представление для управления типами."""
 
     serializer_class = TypeSerializer
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Type.objects.all()
+
+
+class StatusViewSet(viewsets.ModelViewSet):
+    """Представление для управления типами."""
+
+    serializer_class = StatusSerializer
+    queryset = Status.objects.all()
